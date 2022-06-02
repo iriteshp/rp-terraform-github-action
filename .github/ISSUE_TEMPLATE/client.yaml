@@ -1,0 +1,24 @@
+name: Request Keycloak Client
+description: this issue create Keycloak clients automatically.
+title: "[Client]: "
+# labels: ["bug", "triage"]
+# assignees:
+#   - octocat
+body:
+  - type: input
+    id: client-name
+    attributes:
+      label: Client Name
+      description: Provide your application client name.
+      placeholder: ex. react-test-app
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: Tell us what you see!
+      value: "A bug happened!"
+    validations:
+      required: true
