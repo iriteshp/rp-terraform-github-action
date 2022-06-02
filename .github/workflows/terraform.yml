@@ -1,7 +1,15 @@
 name: "Issues"
-
 on:
   issues:
-    types: [opened]
-
-- run: echo ${{ github.event.issue.body }}
+    types: [opened, edited]
+# - run: echo ${{ github.event.issue.body }}
+jobs:
+  bash-example:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Group of log lines
+        run: |
+            echo "::group::My title"
+            echo "Inside group"
+            echo ${{ github.event.issue.body }}
+            echo "::endgroup::"
