@@ -16,12 +16,12 @@ jobs:
 
       - name: terraform fmt
         id: fmt
-        working-directory: ./terraform/applications/keycloak
+        working-directory: terraform/applications/keycloak
         continue-on-error: true
         run: terraform fmt -check
 
       - name: terraform init
         id: init
-        working-directory: ./terraform/applications/keycloak
+        working-directory: terraform/applications/keycloak
         continue-on-error: true
         run: terraform init
