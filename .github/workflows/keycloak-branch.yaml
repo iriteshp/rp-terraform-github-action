@@ -18,11 +18,11 @@ jobs:
             keycloak-utility:
               - 'terraform/applications/keycloak/env/utility.tfvars'
 
-      - name: Echo Test
+      - name: echo stuff
         run: |
             echo "PR test"
-            echo ${ steps.changes.outputs.keycloak-dev }
-            echo ${ steps.changes.outputs.keycloak-utility }
+            echo ${{ steps.changes.outputs.keycloak-dev }}
+            echo ${{ steps.changes.outputs.keycloak-utility }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
