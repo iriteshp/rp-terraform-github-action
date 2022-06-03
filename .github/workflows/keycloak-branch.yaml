@@ -7,6 +7,19 @@ jobs:
   bash-example:
     runs-on: ubuntu-latest
     steps:
-      - name: Group of log lines
+      - name: Echo Test
         run: |
             echo "PR test"
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: terraform fmt
+        id: fmt
+        working-directory: ./terraform/applications/keycloak
+        continue-on-error: true
+
+      - name: terraform init
+        id: init
+        working-directory: ./terraform/applications/keycloak
+        continue-on-error: true
