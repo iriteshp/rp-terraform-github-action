@@ -14,6 +14,7 @@ jobs:
 
       ## detect changes in dev or utility file, may be change to something else in future for env.
       - uses: dorny/paths-filter@v2
+        name: identify env
         id: changes
         with:
           filters: |
@@ -70,7 +71,7 @@ jobs:
         with:
           github-token: ${{ secrets.GIT_TOKEN }}
           script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.init-dev.outcome }}\`
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt-dev.outcome }}\`
 
             <details><summary>Files in need of format</summary>
             
@@ -80,8 +81,8 @@ jobs:
             
             </details>
 
-            #### Terraform Initialization ⚙️\`${{ steps.init-vagov-dev.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan-vagov-dev.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init-dev.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan-dev.outcome }}\`
             
             <details><summary>Show Plan</summary>
             
