@@ -1,0 +1,51 @@
+# Generic makefile that can be used by any Terraform folder
+ENV ?= dev
+
+# Not all applications will need multiple environments
+INIT_FLAGS ?= -backend-config=env/${ENV}.tfbackend -reconfigure
+PLAN_FLAGS ?= -var-file=env/${ENV}.tfvars
+
+# Allow additional commands to be run at different stages
+PRE_DEPLOY_STEP ?=
+EXTRA_CLEAN_STEP ?=
+
+
+all: init fmt plan apply clean
+plan: check-state ${PRE_DEPLOY_STEP} tfplan
+
+init: clean
+	terraform -v
+	terraform init ${INIT_FLAGS}
+	@echo ${ENV} > .terraform/env
+
+fmt:
+	terraform fmt
+
+check-state:
+ifneq ($(shell cat .terraform/env),${ENV})
+	$(error Error: not currently pointing to state file for ${ENV}, please run `make ENV=${ENV} init`)
+endif
+
+tfplan-${ENV}:
+	$(error Error: no plan file present for ${ENV}, please run `make ENV=${ENV} plan`)
+
+tfplan:
+	terraform validate
+	terraform plan -out=tfplan-${ENV} ${PLAN_FLAGS}
+
+show: tfplan-${ENV}
+	terraform show tfplan-${ENV}
+
+apply: check-state tfplan-${ENV}
+	terraform apply tfplan-${ENV}
+
+clean: ${EXTRA_CLEAN_STEP}
+	@rm -f tfplan*
+
+readme:
+	terraform-docs markdown . > docs/terraform.md
+	cat docs/*.md > README.md
+	@rm docs/terraform.md
+
+.PHONY: all plan init fmt check-state tfplan show apply clean readme
+

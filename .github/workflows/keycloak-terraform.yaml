@@ -47,20 +47,20 @@ jobs:
         if: steps.changes.outputs.keycloak-dev == 'true'
         working-directory: terraform/applications/keycloak
         continue-on-error: true
-        run: terraform fmt -check
+        run: make ENV=dev fmt -check
 
       - name: terraform init
         id: init-dev
         if: steps.changes.outputs.keycloak-dev == 'true'
         working-directory: terraform/applications/keycloak
         continue-on-error: true
-        run: terraform init
+        run: make ENV=dev init
 
       - name: terraform plan
         id: plan-dev
         if: steps.changes.outputs.keycloak-dev == 'true'
         working-directory: terraform/applications/keycloak
-        run: terraform plan -no-color -refresh=false
+        run: make ENV=dev plan -no-color -refresh=false
         continue-on-error: true
 
       - uses: actions/github-script@0.9.0
