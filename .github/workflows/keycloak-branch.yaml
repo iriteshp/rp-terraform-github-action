@@ -3,3 +3,10 @@ on:
   pull_request:
     paths:
       - 'terraform/applications/keycloak/**'
+jobs:
+  bash-example:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Group of log lines
+        run: |
+            echo "PR test"
