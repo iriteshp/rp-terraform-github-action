@@ -41,8 +41,6 @@ jobs:
             echo ${{ steps.changes.outputs.keycloak-dev }}
             echo ${{ steps.changes.outputs.keycloak-utility }}
 
-
-
       - name: terraform fmt
         id: fmt-dev
         if: steps.changes.outputs.keycloak-dev == 'true'
@@ -72,7 +70,7 @@ jobs:
         with:
           github-token: ${{ secrets.GIT_TOKEN }}
           script: |
-            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt-vagov-dev.outcome }}\`
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.init-dev.outcome }}\`
 
             <details><summary>Files in need of format</summary>
             
@@ -93,7 +91,7 @@ jobs:
             
             </details>
 
-            *Environment: dev*`;
+            #### *Environment: dev*`;
       
             github.issues.createComment({
               issue_number: context.issue.number,
