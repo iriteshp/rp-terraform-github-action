@@ -7,6 +7,8 @@ jobs:
   bash-example:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+      
       - name: Echo Test
         run: |
             echo "PR test"
