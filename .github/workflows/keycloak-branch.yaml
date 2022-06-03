@@ -1,6 +1,5 @@
-name: "keycloak"
+name: ci
 on:
   pull_request:
-    # Run only on changes on keycloak files
     paths:
-      - 'terraform/applications/keycloak/*'
+      - 'terraform/applications/keycloak/**'
