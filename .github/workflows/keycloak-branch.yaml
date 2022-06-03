@@ -8,10 +8,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
+
+      - uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            keycloak-dev:
+              - 'erraform/applications/keycloak/env/dev.tfvars'
+            keycloak-utility:
+              - 'erraform/applications/keycloak/env/utility.tfvars'
+
       - name: Echo Test
         run: |
             echo "PR test"
+            echo ${ steps.changes.outputs.vagov-dev }
+            echo ${ steps.changes.outputs.vagov-dev }
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
