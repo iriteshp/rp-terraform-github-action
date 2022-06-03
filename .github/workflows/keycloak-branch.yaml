@@ -14,9 +14,9 @@ jobs:
         with:
           filters: |
             keycloak-dev:
-              - 'erraform/applications/keycloak/env/dev.tfvars'
+              - 'terraform/applications/keycloak/env/dev.tfvars'
             keycloak-utility:
-              - 'erraform/applications/keycloak/env/utility.tfvars'
+              - 'terraform/applications/keycloak/env/utility.tfvars'
 
       - name: Echo Test
         run: |
