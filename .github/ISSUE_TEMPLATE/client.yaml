@@ -13,12 +13,11 @@ body:
       placeholder: ex. react-test-app
     validations:
       required: true
-  - type: textarea
-    id: what-happened
+  - type: input
+    id: env
     attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      label: Environment
+      description: Please indecate the environment for the client
+      placeholder: ex. dev or utility
     validations:
       required: true
