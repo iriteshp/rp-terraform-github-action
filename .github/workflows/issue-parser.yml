@@ -12,7 +12,8 @@ jobs:
             echo "::group::My title"
             echo "Inside group"
             echo ${{ github.event.issue.body }}
-            echo "::endgroup::"  
+            echo "::endgroup::"
+        continue-on-error: true
       
       - uses: stefanbuck/github-issue-parser@v2
         id: issue-parser
