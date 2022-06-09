@@ -28,7 +28,7 @@ jobs:
       - name: "Run ruby"
         run: ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}'
       
-       - name: Check out my other private repo
+      - name: Check out my other private repo
         uses: actions/checkout@master
         with:
           repository: department-of-veterans-affairs/devops
