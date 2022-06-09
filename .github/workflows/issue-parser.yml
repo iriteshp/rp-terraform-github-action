@@ -30,6 +30,7 @@ jobs:
         run: |
           output=$(ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}') 
           echo "::set-output name=changelog::$output"
+
       # - name: Check out devops repo
       #   uses: actions/checkout@v3
       #   with:
@@ -39,3 +40,4 @@ jobs:
       - name: Echo
         run: |
           echo $(cat client.tf)
+          echo $(cat terraform/applications/keycloak/modules/login-gov/openid_clients.tf)
