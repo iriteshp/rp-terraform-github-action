@@ -9,12 +9,12 @@ jobs:
     steps:
       - name: Group of log lines
         run: |
-            echo "::group::My title"
-            echo "Inside group"
-            echo '${{ github.event.issue.body }}'
-            echo "::endgroup::"
+          echo "::group::My title"
+          echo "Inside group"
+          echo '${{ github.event.issue.body }}'
+          echo "::endgroup::"
         continue-on-error: true
-      
+
       - name: Parse issue data
         uses: stefanbuck/github-issue-parser@v2
         id: issue-parser
@@ -23,6 +23,6 @@ jobs:
 
       - name: Save client details
         run: echo '${{ step.issue-parser.outputs.jsonString s}}' > client-details.json
-      
+
       - name: "Run ruby"
         run: ruby parser.rb '${{ step.issue-parser.outputs.jsonString s}}'
