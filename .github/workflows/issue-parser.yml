@@ -22,7 +22,7 @@ jobs:
           template-path: .github/ISSUE_TEMPLATE/client.yml
 
       - name: Save client details
-        run: echo '${{ step.issue-parser.outputs.jsonString s}}' > client-details.json   
+        run: echo '${{ step.issue-parser.outputs.jsonString s}}' > client-details.json
       
       - name: "Run ruby"
-        run: ruby parser.rb '${{ github.event.pull_request.title}}'"
+        run: ruby parser.rb '${{ step.issue-parser.outputs.jsonString s}}'
