@@ -23,4 +23,4 @@ jobs:
       - run: echo '${{ step.issue-parser.outputs.jsonString s}}' > bug-details.json   
 
       - name: "Run ruby"
-        run: ruby parser.rb '${{ step.issue-parser.outputs.jsonString s}}'
+        run: ruby parser.rb '{"client_name":"test-client","environment":"dev"}'
