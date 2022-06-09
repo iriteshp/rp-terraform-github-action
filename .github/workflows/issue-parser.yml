@@ -29,13 +29,12 @@ jobs:
         id: ruby-script
         run: ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}'
       
-      - name: Check out devops repo
-        uses: actions/checkout@v3
-        with:
-          repository: department-of-veterans-affairs/devops
-          token: ${{ secrets.GIT_TOKEN }}
+      # - name: Check out devops repo
+      #   uses: actions/checkout@v3
+      #   with:
+      #     repository: department-of-veterans-affairs/devops
+      #     token: ${{ secrets.GIT_TOKEN }}
 
       - name: Echo
         run: |
-          ls
           echo '${{ steps.ruby-script.outputs.stdout }}'
