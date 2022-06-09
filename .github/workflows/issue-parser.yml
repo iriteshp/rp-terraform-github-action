@@ -39,6 +39,8 @@ jobs:
 
       - name: Echo
         run: |
+          git config --global user.email "ritesh.patel@adhocteam.us"
+          git config --global user.name "Ritesh Patel"
           echo $(cat client.tf) >> terraform/applications/keycloak/modules/login-gov/openid_clients.tf
           echo $(cat terraform/applications/keycloak/modules/login-gov/openid_clients.tf)
           git status
