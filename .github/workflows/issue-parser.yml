@@ -20,7 +20,4 @@ jobs:
         with:
           template-path: .github/ISSUE_TEMPLATE/client.yml
 
-      - run: echo '${{ step.issue-parser.outputs.jsonString s}}' > bug-details.json   
-
-      - name: "Run ruby"
-        run: ruby parser.rb '{"client_name":"test-client","environment":"dev"}'
+      - run: echo '${{ step.issue-parser.outputs.jsonString s}}' > bug-details.json
