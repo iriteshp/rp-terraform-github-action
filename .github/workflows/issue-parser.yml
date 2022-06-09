@@ -38,4 +38,4 @@ jobs:
       - name: Echo
         run: |
           ls
-          echo '${{ steps.ruby-script.outputs }}'
+          echo '${{ steps.ruby-script.outputs.stdout }}'
