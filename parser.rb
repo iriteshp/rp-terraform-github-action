@@ -37,5 +37,14 @@ parsed = JSON.parse(ARGV[0])
 output_str = ''
 output_str += resource_client(parsed['client_name'])
 
+output = "client.tf"
 puts output_str
-# puts JSON.parse(input, symbolize_names: true)
+
+if output.nil?
+    puts output_str
+  else
+    File.write(output, output_str)
+  end
+  puts "Done."
+
+  
