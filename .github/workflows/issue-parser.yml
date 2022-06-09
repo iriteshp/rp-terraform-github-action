@@ -27,8 +27,9 @@ jobs:
 
       - name: "Run ruby"
         id: ruby-script
-        run: ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}'
-      
+        run: |
+          output=$(ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}') 
+          echo "::set-output name=changelog::$output"
       # - name: Check out devops repo
       #   uses: actions/checkout@v3
       #   with:
@@ -37,4 +38,4 @@ jobs:
 
       - name: Echo
         run: |
-          echo '${{ steps.ruby-script.outputs.stdout }}'
+          echo ${{ steps.ruby-script.outputs.changelog  }}
