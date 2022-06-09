@@ -15,7 +15,9 @@ jobs:
             echo "::endgroup::"
         continue-on-error: true
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          token: token: ${{ secrets.GIT_TOKEN }}
 
       - uses: stefanbuck/github-issue-parser@v2
         id: issue-parser
@@ -45,7 +47,7 @@ jobs:
           echo $(cat terraform/applications/keycloak/modules/login-gov/openid_clients.tf)
       
       - uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
-        with:
+        with: 
           author_name: Ritesh Patel
           author_email: ritesh.patel@adhocteam.us
           message: 'Add new client'
