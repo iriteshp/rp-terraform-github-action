@@ -20,4 +20,8 @@ jobs:
         with:
           template-path: .github/ISSUE_TEMPLATE/client.yml
 
-      - run: echo '${{ step.issue-parser.outputs.jsonString }}' > bug-details.json
+      - name: "Echo Steps"
+        run: echo '${{ steps.issue-parser.outputs.jsonString }}' > client-details.json
+
+      - name: "Run ruby"
+        run: ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}' 
