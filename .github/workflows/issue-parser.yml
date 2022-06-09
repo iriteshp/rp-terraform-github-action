@@ -25,6 +25,11 @@ jobs:
       - name: "Echo Steps"
         run: echo '${{ steps.issue-parser.outputs.jsonString }}' > client-details.json
 
+      - name: Retrieve version
+        run: |
+          echo "::set-output name=client::$(ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}')"
+        id: ruby-script1
+
       - name: "Run ruby"
         id: ruby-script
         run: ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}'
@@ -37,4 +42,4 @@ jobs:
 
       - name: Echo
         run: |
-          echo '${{ steps.ruby-script.outputs.stdout }}'
+          echo '${{ steps.ruby-script1.outputs.stdout }}'steps.version.outputs.client
