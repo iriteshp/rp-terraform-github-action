@@ -38,4 +38,4 @@ jobs:
 
       - name: Echo
         run: |
-          echo ${{ steps.ruby-script.outputs.changelog  }}
+          echo $(cat client.tf)
