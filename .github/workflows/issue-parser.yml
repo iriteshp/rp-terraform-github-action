@@ -16,7 +16,7 @@ jobs:
         continue-on-error: true
 
       - uses: actions/checkout@v2
-      
+
       - uses: stefanbuck/github-issue-parser@v2
         id: issue-parser
         with:
@@ -26,4 +26,10 @@ jobs:
         run: echo '${{ steps.issue-parser.outputs.jsonString }}' > client-details.json
 
       - name: "Run ruby"
-        run: ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}' 
+        run: ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}'
+      
+       - name: Check out my other private repo
+        uses: actions/checkout@master
+        with:
+          repository: department-of-veterans-affairs/devops
+          token: ${{ secrets.GIT_TOKEN }}
