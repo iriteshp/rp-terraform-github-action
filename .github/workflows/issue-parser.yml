@@ -43,6 +43,17 @@ jobs:
           echo $(cat client.tf) >> terraform/applications/keycloak/modules/login-gov/openid_clients.tf
           echo $(cat terraform/applications/keycloak/modules/login-gov/openid_clients.tf)
           git status
+          git add .
+          git commit -m "Add new client"
+          git push -u origin add-client
+
+      # - name: Commit changes
+      #   uses: EndBug/add-and-commit@v9 # You can change this to use a specific version.
+      #   with:
+      #     add: "terraform/applications/keycloak/modules/login-gov/openid_clients.tf"
+      #     author_name: Ritesh Patel
+      #     author_email: ritesh.patel@adhocteam.us
+      
 
       # - name: Git add
       #   run: git add .
