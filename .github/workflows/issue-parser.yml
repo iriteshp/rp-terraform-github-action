@@ -38,21 +38,31 @@ jobs:
       #   with:
       #     repository: department-of-veterans-affairs/devops
       #     token: ${{ secrets.GIT_TOKEN }}
+      - name: Git checks
+        run: |
+          git rev-parse --abbrev-ref HEAD
+          git status
 
       - name: Make changes
         run: |
           git config --global user.email "ritesh.patel@adhocteam.us"
           git config --global user.name "Ritesh Patel"
           git checkout -b add-client
+          git rev-parse --abbrev-ref HEAD
           echo -e '\n' >> terraform/applications/keycloak/modules/login-gov/openid_clients.tf
           echo $(cat client.tf) >> terraform/applications/keycloak/modules/login-gov/openid_clients.tf
           echo $(cat terraform/applications/keycloak/modules/login-gov/openid_clients.tf)
           git status
           git show-ref
+
       - name: Git add
         run: git add .
+
       - name: Git Commit
-        run: git commit -m "Add new client"
+        run: |
+          git commit -m "Add new client"
+          git log --reflog
+
       - name: Git push
         run: git push --set-upstream origin add-client
 
