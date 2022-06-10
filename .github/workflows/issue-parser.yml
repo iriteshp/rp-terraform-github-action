@@ -54,15 +54,15 @@ jobs:
       - name: Git push
         run: git push --set-upstream origin add-client
 
-      # - name: Create Pull Request
-      #   uses: peter-evans/create-pull-request@v3
-      #   with:
-      #     token: ${{ secrets.GIT_TOKEN }}
-      #     commit-message: "[Add Keycloak Client] Adding new client"
-      #     branch: add-client
-      #     base: main
-      #     title: "[Add Keycloak Client] adding some text"
-      #     body: |
-      #       An automated ADD keycloak client Request
-      #     labels: |
-      #       amt
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GIT_TOKEN }}
+          commit-message: "[Add Keycloak Client] Adding new client"
+          branch: add-client
+          base: main
+          title: "[Add Keycloak Client] adding some text"
+          body: |
+            An automated ADD keycloak client Request
+          labels: |
+            amt
