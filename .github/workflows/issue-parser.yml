@@ -53,18 +53,18 @@ jobs:
           author_name: Ritesh Patel
           author_email: ritesh.patel@adhocteam.us
           message: 'Add new client'
-          new_branch: add-client-branch
+          # new_branch: add-client-branch
           push: true
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
-        with:
-          token: ${{ secrets.GIT_TOKEN }}
-          commit-message: "[Add Keycloak Client] Adding new client"
-          branch: add-client-branch
-          base: main
-          title: "[Add Keycloak Client] adding some textß"
-          body: |
-            An automated ADD keycloak client Request
-          labels: |
-            amt
+      # - name: Create Pull Request
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     token: ${{ secrets.GIT_TOKEN }}
+      #     commit-message: "[Add Keycloak Client] Adding new client"
+      #     branch: add-client-branch
+      #     base: main
+      #     title: "[Add Keycloak Client] adding some textß"
+      #     body: |
+      #       An automated ADD keycloak client Request
+      #     labels: |
+      #       amt
