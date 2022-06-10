@@ -53,7 +53,7 @@ jobs:
           author_name: Ritesh Patel
           author_email: ritesh.patel@adhocteam.us
           message: 'Add new client'
-          # new_branch: add-client-branch
+          new_branch: add-client-${{ steps.issue-parser.outputs.jsonString.client_name }}
           push: true
 
       # - name: Create Pull Request
