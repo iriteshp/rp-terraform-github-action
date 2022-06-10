@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.GIT_TOKEN }}
-          ref: main
+          fetch-depth: 0
 
       - uses: stefanbuck/github-issue-parser@v2
         id: issue-parser
@@ -31,8 +31,7 @@ jobs:
       - name: "Run ruby"
         id: ruby-script
         run: |
-          output=$(ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}') 
-          echo "::set-output name=changelog::$output"
+          ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}'
 
       # - name: Check out devops repo
       #   uses: actions/checkout@v3
@@ -69,8 +68,7 @@ jobs:
           token: ${{ secrets.GIT_TOKEN }}
           commit-message: "[Add Keycloak Client] Adding new client"
           branch: add-client
-          base: main
-          title: "[Add Keycloak Client] adding some textß"
+          title: "[Add Keycloak Client] adding some text"
           body: |
             An automated ADD keycloak client Request
           labels: |
