@@ -39,28 +39,17 @@ jobs:
       #     repository: department-of-veterans-affairs/devops
       #     token: ${{ secrets.GIT_TOKEN }}
 
-      - name: Echo
+      - name: Commit
         run: |
           git config --global user.email "ritesh.patel@adhocteam.us"
           git config --global user.name "Ritesh Patel"
           git checkout -b add-client
-
-      - name: Make changes
-        run: |
+          echo -e '\n' >> terraform/applications/keycloak/modules/login-gov/openid_clients.tf
           echo $(cat client.tf) >> terraform/applications/keycloak/modules/login-gov/openid_clients.tf
           echo $(cat terraform/applications/keycloak/modules/login-gov/openid_clients.tf)
           git add .
           git commit -m "Add new client"
-          git push -u origin add-client
-      
-      # - name: Commit changes
-      #   uses: EndBug/add-and-commit@v9
-      #   with: 
-      #     author_name: Ritesh Patel
-      #     author_email: ritesh.patel@adhocteam.us
-      #     message: 'Add new client'
-      #     new_branch: add-client
-      #     push: origin add-client --set-upstream --force
+          git push --set-upstream origin add-client-test
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
