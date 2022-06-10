@@ -45,8 +45,6 @@ jobs:
           git status
           git add .
           git commit -m "Add new client"
-          git push -u origin add-client
-          git checkout origin/main
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
