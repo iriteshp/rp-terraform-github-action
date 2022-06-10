@@ -49,7 +49,7 @@ jobs:
           echo $(cat terraform/applications/keycloak/modules/login-gov/openid_clients.tf)
           git add .
           git commit -m "Add new client"
-          git push --set-upstream origin add-client-test
+          git push --set-upstream origin add-client
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
