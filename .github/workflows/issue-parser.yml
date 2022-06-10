@@ -52,7 +52,7 @@ jobs:
           token: ${{ secrets.GIT_TOKEN }}
           commit-message: "[Add Keycloak Client] Adding new client"
           branch: add-client
-          base: origin/main
+          base: main
           title: "[Add Keycloak Client] adding some text"
           body: |
             An automated ADD keycloak client Request
