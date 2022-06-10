@@ -45,6 +45,9 @@ jobs:
           git config --global user.email "ritesh.patel@adhocteam.us"
           git config --global user.name "Ritesh Patel"
           git checkout -b add-client
+
+      - name: Make changes
+        run: |
           echo $(cat client.tf) >> terraform/applications/keycloak/modules/login-gov/openid_clients.tf
           echo $(cat terraform/applications/keycloak/modules/login-gov/openid_clients.tf)
       
@@ -57,15 +60,15 @@ jobs:
           new_branch: add-client
           push: origin add-client --set-upstream --force
 
-      # - name: Create Pull Request
-      #   uses: peter-evans/create-pull-request@v3
-      #   with:
-      #     token: ${{ secrets.GIT_TOKEN }}
-      #     commit-message: "[Add Keycloak Client] Adding new client"
-      #     branch: add-client-${{ steps.issue-parser.outputs.jsonString.client_name }}
-      #     base: main
-      #     title: "[Add Keycloak Client] adding some textß"
-      #     body: |
-      #       An automated ADD keycloak client Request
-      #     labels: |
-      #       amt
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GIT_TOKEN }}
+          commit-message: "[Add Keycloak Client] Adding new client"
+          branch: add-client
+          base: main
+          title: "[Add Keycloak Client] adding some textß"
+          body: |
+            An automated ADD keycloak client Request
+          labels: |
+            amt
