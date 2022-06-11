@@ -73,5 +73,5 @@ jobs:
     # if: ${{ needs.fuzz-nightly-test.outputs.crashers-count != 0 }}
     steps:
       - run: |
-          echo ${{ needs.bash-example.outputs.client_name }}
+          echo ${{ needs.bash-example.outputs.client-name }}
           echo ${{ env.CLIENT_NAME }}
