@@ -18,7 +18,9 @@ jobs:
           template-path: .github/ISSUE_TEMPLATE/client.yml
 
       - name: "Echo Steps"
-        run: echo '${{ steps.issue-parser.outputs.jsonString }}'
+        run: |
+          echo '${{ steps.issue-parser.outputs.jsonString }}'
+          echo '${{ steps.issue-parser.outputs.jsonString['client_name'] }}'
 
       - name: "Run ruby"
         id: ruby-script
