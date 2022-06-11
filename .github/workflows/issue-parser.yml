@@ -69,5 +69,5 @@ jobs:
     needs: bash-example
     steps:
       - run: |
-        echo ${{ needs.bash-example.outputs.client_name }}
-        echo ${{ env.CLIENT_NAME }}
+          echo ${{ needs.bash-example.outputs.client_name }}
+          echo ${{ env.CLIENT_NAME }}
