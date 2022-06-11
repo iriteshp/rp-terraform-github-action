@@ -27,8 +27,8 @@ jobs:
       - name: Set outputs
         id: output-vars
         run: |
-          echo "::set-output name=client_name::$( jq '.client_name' issue-details.json )"
-          echo "::set-output name=client_env::$( jq '.environment' issue-details.json )"
+          echo "::set-output name=client_name::$( jq -r '.client_name' issue-details.json )"
+          echo "::set-output name=client_env::$( jq -r '.environment' issue-details.json )"
       
       - name: Echo stuff
         run: |
