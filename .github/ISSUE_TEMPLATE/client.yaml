@@ -13,11 +13,13 @@ body:
       placeholder: ex. react-test-app
     validations:
       required: true
-  - type: input
-    id: env
+  - type: dropdown
+    id: environment
     attributes:
       label: Environment
-      description: Please indecate the environment for the client
-      placeholder: ex. dev or utility
+      description: Environement for client?
+      options:
+        - dev
+        - utility
     validations:
       required: true

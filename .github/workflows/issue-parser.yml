@@ -7,51 +7,65 @@ jobs:
   bash-example:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Git Checkout
+        uses: actions/checkout@v3
         with:
           token: ${{ secrets.GIT_TOKEN }}
           fetch-depth: 0
 
-      - uses: stefanbuck/github-issue-parser@v2
+      - name: Parse issue template
+        uses: stefanbuck/github-issue-parser@v2
         id: issue-parser
         with:
           template-path: .github/ISSUE_TEMPLATE/client.yml
      
-      - name: "Echo Steps"
-        run: |
-          echo '${{ steps.issue-parser.outputs.jsonString }}' > issue-details.json
-   
-      - name: extract json vals
+      - name: Create issue details json
+        run: echo '${{ steps.issue-parser.outputs.jsonString }}' > issue-details.json
+
+      - run: echo '${{ steps.issue-parser.outputs.jsonString }}'
+      
+      - name: Extract json values
         id: output-vars
         run: |
           clientName=$( jq '.client_name' issue-details.json )
           clientEnv=$( jq '.environment' issue-details.json )
-          echo $clientName
           echo "::set-output name=client_name::$clientName"
+          echo "::set-output name=client_env::$clientEnv"
 
-      - name: "Run ruby"
-        id: ruby-script
-        run: |
-          ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}'
-
-      # - name: Check out devops repo
+       # - name: Check out devops repo
       #   uses: actions/checkout@v3
       #   with:
       #     repository: department-of-veterans-affairs/devops
       #     token: ${{ secrets.GIT_TOKEN }}
-      - name: Git checks
+
+      - name: "Run script"
+        if: steps.output-vars.outputs.client_env == 'dev'
+        id: ruby-script
+        run: |
+          ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}'
+
+
+      - name: Git configs
+        if: steps.output-vars.outputs.client_env == 'dev'
         run: |
           git config --global user.email "ritesh.patel@adhocteam.us"
           git config --global user.name "Ritesh Patel"
-          git branch -a
 
       - name: Make changes
+        if: steps.output-vars.outputs.client_env == 'dev'
         run: |
           echo >> terraform/applications/keycloak/modules/login-gov/openid_clients.tf
           cat client.tf >> terraform/applications/keycloak/modules/login-gov/openid_clients.tf
           echo $(cat terraform/applications/keycloak/modules/login-gov/openid_clients.tf)
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+      
+      - name: Format Terraform
+        run: 
+
       - name: Create Pull Request
+        if: steps.output-vars.outputs.client_env == 'dev'
         uses: peter-evans/create-pull-request@v3
         with:
           add-paths: terraform/applications/keycloak/*
@@ -64,14 +78,6 @@ jobs:
             An automated ADD keycloak client Request
           labels: |
             amt
-    outputs:
-      client-name: ${{ steps.output-vars.outputs.client_name }}
-
-  new-job:
-    runs-on: ubuntu-latest
-    needs: bash-example
-    # if: ${{ needs.fuzz-nightly-test.outputs.crashers-count != 0 }}
-    steps:
-      - run: |
-          echo ${{ needs.bash-example.outputs.client-name }}
-          echo ${{ env.CLIENT_NAME }}
+    # outputs:
+    #   client-name: ${{ steps.output-vars.outputs.client_name }}
+    #   client-name: ${{ steps.output-vars.outputs.client_env }}
