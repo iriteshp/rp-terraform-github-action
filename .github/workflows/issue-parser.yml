@@ -24,20 +24,16 @@ jobs:
 
       - run: echo '${{ steps.issue-parser.outputs.jsonString }}'
 
-      - name: Extract json values
+      - name: Set outputs
         id: output-vars
         run: |
-          clientName=$( jq '.client_name' issue-details.json )
-          clientEnv=$( jq '.environment' issue-details.json )
-          echo "::set-output name=client_name::$clientName"
-          echo "::set-output name=client_env::$clientEnv"
-          echo "::set-output name=test::$( jq '.environment' issue-details.json )"
+          echo "::set-output name=client_name::$( jq '.client_name' issue-details.json )"
+          echo "::set-output name=client_env::$( jq '.environment' issue-details.json )"
       
       - name: Echo stuff
         run: |
           echo ${{ steps.output-vars.outputs.client_name }}
           echo ${{ steps.output-vars.outputs.client_env }}
-          echo ${{ steps.output-vars.outputs.test }}
 
        # - name: Check out devops repo
       #   uses: actions/checkout@v3
@@ -46,11 +42,10 @@ jobs:
       #     token: ${{ secrets.GIT_TOKEN }}
 
       - name: "Run script"
-        if: steps.output-vars.outputs.client_env == 'dev'
+        if: ${{ steps.output-vars.outputs.client_env == 'dev' }}
         id: ruby-script
         run: |
           ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}'
-
 
       - name: Git configs
         if: steps.output-vars.outputs.client_env == 'dev'
