@@ -1,6 +1,6 @@
 name: Request Keycloak Client
 description: this issue create Keycloak clients automatically.
-title: "[Client]: "
+title: "[Client]: Add new client"
 # labels: ["bug", "triage"]
 # assignees:
 #   - octocat
@@ -10,7 +10,7 @@ body:
     attributes:
       label: Client Name
       description: Provide your application client name.
-      placeholder: ex. react-test-app
+      placeholder: e.g. react-test-app
     validations:
       required: true
   - type: dropdown
