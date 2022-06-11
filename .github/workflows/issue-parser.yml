@@ -26,6 +26,7 @@ jobs:
         run: |
           clientName=$( jq '.client_name' issue-details.json )
           echo $clientName
+          echo "CLIENT_NAME=$clientName" >> $GITHUB_ENV
           echo "::set-output name=client_name::$clientName"
 
       - name: "Run ruby"
@@ -67,4 +68,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: bash-example
     steps:
-      - run: echo ${{ needs.bash-example.outputs.client_name }}
+      - run: |
+        echo ${{ needs.bash-example.outputs.client_name }}
+        echo ${{ env.CLIENT_NAME }}
