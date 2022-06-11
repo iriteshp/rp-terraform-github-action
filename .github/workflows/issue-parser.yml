@@ -26,8 +26,7 @@ jobs:
         run: |
           clientName=$( jq '.client_name' issue-details.json )
           echo $clientName
-          echo "CLIENT_NAME=$clientName" >> "$GITHUB_ENV"
-          echo "$CLIENT_NAME"
+          echo "::set-output name=client_name::$clientName"
 
       - name: "Run ruby"
         id: ruby-script
@@ -64,3 +63,8 @@ jobs:
             An automated ADD keycloak client Request
           labels: |
             amt
+  new-job:
+    runs-on: ubuntu-latest
+    needs: bash-example
+    steps:
+      - run: echo ${{ needs.bash-example.outputs.client_name }}
