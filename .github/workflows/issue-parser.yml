@@ -42,7 +42,7 @@ jobs:
       #     token: ${{ secrets.GIT_TOKEN }}
 
       - name: "Run script"
-        if: ${{ steps.output-vars.outputs.client_env == 'dev' }}
+        if: steps.output-vars.outputs.client_env == "dev"
         id: ruby-script
         run: |
           ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}'
