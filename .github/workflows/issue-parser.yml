@@ -23,7 +23,7 @@ jobs:
         run: echo '${{ steps.issue-parser.outputs.jsonString }}' > issue-details.json
 
       - run: echo '${{ steps.issue-parser.outputs.jsonString }}'
-      
+
       - name: Extract json values
         id: output-vars
         run: |
@@ -61,8 +61,8 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
       
-      - name: Format Terraform
-        run: 
+      # - name: Format Terraform
+      #   run: 
 
       - name: Create Pull Request
         if: steps.output-vars.outputs.client_env == 'dev'
