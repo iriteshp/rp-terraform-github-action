@@ -27,7 +27,7 @@ jobs:
           clientName=$( jq '.client_name' issue-details.json )
           clientEnv=$( jq '.environment' issue-details.json )
           echo $clientName
-          echo "::set-output name=client_name::$clientName""
+          echo "::set-output name=client_name::$clientName"
 
       - name: "Run ruby"
         id: ruby-script
