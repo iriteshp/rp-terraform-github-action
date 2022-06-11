@@ -26,7 +26,7 @@ jobs:
         run: |
           clientName=$( jq '.client_name' issue-details.json )
           echo $clientName
-          echo "CLIENT_NAME=$clientName" >> $GITHUB_ENV
+          echo "CLIENT_NAME=$(echo $clientName)" >> $GITHUB_ENV
           echo "::set-output name=client_name::$clientName"
 
       - name: "Run ruby"
