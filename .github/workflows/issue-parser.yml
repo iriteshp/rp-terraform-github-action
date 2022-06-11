@@ -65,7 +65,7 @@ jobs:
           labels: |
             amt
     outputs:
-      client-name: ${{ steps.output-vars.outputs.client_name }
+      client-name: ${{ steps.output-vars.outputs.client_name }}
 
   new-job:
     runs-on: ubuntu-latest
