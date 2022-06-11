@@ -24,10 +24,10 @@ jobs:
    
       - name: extract json vals
         run: |
-          token=$( jq '.authorizationToken' at.json )
+          token=$( jq '.authorizationToken' issue-details.json )
           echo "CLIENT_NAME=$token" >> "$GITHUB_ENV"
           echo "$CLIENT_NAME"
-          
+
       - name: "Run ruby"
         id: ruby-script
         run: |
