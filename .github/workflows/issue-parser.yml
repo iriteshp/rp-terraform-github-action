@@ -57,7 +57,6 @@ jobs:
 
       - name: Make changes
         if: steps.output-vars.outputs.client_env == 'dev'
-        working-directory: ./temp
         run: |
           cat .temp/client.tf >> ./terraform/applications/keycloak/modules/login-gov/openid_clients.tf
           cat .temp/variable.tf >> ./terraform/applications/keycloak/modules/login-gov/variables.tf
