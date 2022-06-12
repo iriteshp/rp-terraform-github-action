@@ -58,10 +58,10 @@ jobs:
       - name: Make changes
         if: steps.output-vars.outputs.client_env == 'dev'
         run: |
-          cat ./temp/client.tf >> terraform/applications/keycloak/modules/login-gov/openid_clients.tf
-          cat ./temp/variable.tf >> terraform/applications/keycloak/modules/login-gov/variables.tf
-          cat ./temp/variable.tf >> terraform/applications/keycloak/variables.tf
-          car ./temp/enable.tf >> terraform/applications/keycloak/env/dev.tfvars
+          cat /temp/client.tf >> terraform/applications/keycloak/modules/login-gov/openid_clients.tf
+          cat /temp/variable.tf >> terraform/applications/keycloak/modules/login-gov/variables.tf
+          cat /temp/variable.tf >> terraform/applications/keycloak/variables.tf
+          car /temp/enable.tf >> terraform/applications/keycloak/env/dev.tfvars
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
