@@ -62,7 +62,8 @@ def create_file(file_name, str)
     File.write(file_name, str)
   end
 
-file = File.read('./client-details.json')
+file = File.read(ARGV[0])
+
 parsed = JSON.parse(file)
 temp_dir = "temp"
 client_output = "#{temp_dir}/client.tf"

@@ -1,1 +1,4 @@
 .terraform
+
+temp/
+issue-details.json
