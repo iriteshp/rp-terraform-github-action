@@ -67,7 +67,7 @@ file = File.read(ARGV[0])
 parsed = JSON.parse(file)
 temp_dir = "temp"
 client_output = "#{temp_dir}/client.tf"
-var_output = "#{temp_dir}/var.tf"
+var_output = "#{temp_dir}/variable.tf"
 module_output = "#{temp_dir}/module.tf"
 enable_output = "#{temp_dir}/enable.tf"
 
