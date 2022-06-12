@@ -48,7 +48,7 @@ jobs:
         if: steps.output-vars.outputs.client_env == 'dev'
         id: ruby-script
         run: |
-          ruby parser.rb '${{ steps.issue-parser.outputs.jsonString }}'
+          ruby parser.rb './issue-details.json
 
       - name: Git configs
         if: steps.output-vars.outputs.client_env == 'dev'
