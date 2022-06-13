@@ -28,7 +28,8 @@ def resource_variable(client_name)
     return ret
   end
 
-def resource_client(client_name)
+def resource_client(client_name, redirect_uri)
+    puts redirect_uri.split(/\s*,\s*/)
     ret = ''
     ret += <<~HERE
     resource "keycloak_openid_client" "#{client_name}" {
@@ -50,7 +51,7 @@ def resource_client(client_name)
       realm_id                                   = keycloak_realm.login_gov_tf.id
       standard_flow_enabled                      = "true"
       use_refresh_tokens                         = "true"
-      valid_redirect_uris                        = var.react_test_app_uris
+      valid_redirect_uris                        = #{redirect_uri.split(/\s*,\s*/)}
       web_origins                                = ["*"]
     }
     HERE
@@ -75,7 +76,7 @@ Dir.mkdir(temp_dir) unless File.exists?(temp_dir)
 if parsed['environment'] == 'dev'
 
   # create client
-  client_output_str = resource_client(parsed['client_name'])
+  client_output_str = resource_client(parsed['client_name'], parsed['redirect_uri'])
   unless client_output_str.nil?
     create_file(client_output, client_output_str)
     puts "Client created."

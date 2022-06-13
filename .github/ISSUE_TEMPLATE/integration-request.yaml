@@ -30,7 +30,7 @@ body:
       description: Your application will likely support either OIDC or SAML. AMT recommends using OIDC because of its RESTful, API-first approach to authentication. However, some factors may require that you choose SAML, especially for off-the-shelf products where you may have no choice.
       options:
         - OIDC
-        - SAML
+        # - SAML
     validations: 
       required: true
   - type: dropdown
