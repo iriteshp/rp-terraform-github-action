@@ -2,9 +2,8 @@ name: "Issues"
 on:
   issues:
     types: [opened, edited]
-# - run: echo ${{ github.event.issue.body }}
 jobs:
-  bash-example:
+  manage-keycloak-client:
     runs-on: ubuntu-latest
     steps:
       - name: Git Checkout
@@ -30,6 +29,7 @@ jobs:
           echo "::set-output name=client_name::$( jq -r '.client_name' issue-details.json )"
           echo "::set-output name=client_env::$( jq -r '.environment' issue-details.json )"
       
+      #TODO: remove
       - name: Echo stuff
         run: |
           echo ${{ steps.output-vars.outputs.client_name }}
@@ -40,9 +40,6 @@ jobs:
       #   with:
       #     repository: department-of-veterans-affairs/devops
       #     token: ${{ secrets.GIT_TOKEN }}
-
-      - if:  steps.output-vars.outputs.client_env == 'dev'
-        run: echo
 
       - name: "Run script"
         if: steps.output-vars.outputs.client_env == 'dev'
@@ -55,8 +52,9 @@ jobs:
       - name: Format Terraform
         working-directory: ./temp
         run: |
-          terraform fmt -check
           terraform fmt
+          terraform fmt -check
+        continue-on-error: true
 
       - name: Git configs
         if: steps.output-vars.outputs.client_env == 'dev'
