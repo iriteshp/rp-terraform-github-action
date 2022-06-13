@@ -75,3 +75,8 @@ variable "react_test_app_admin_url" {
   type = string
 }
 
+variable "enable_" {
+  type        = bool
+  description = "Whether environment should use the  client"
+  default     = false
+}
