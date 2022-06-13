@@ -73,6 +73,11 @@ jobs:
           cat temp/module.tf >> terraform/applications/keycloak/login-gov.tf
           echo "}" >> terraform/applications/keycloak/login-gov.tf
 
+      - name: Format Terraform
+        working-directory: ./terraform/applications/keycloak
+        run: |
+          terraform fmt
+          terraform fmt -check
 
       - name: Create Pull Request
         if: steps.output-vars.outputs.client_env == 'dev'
