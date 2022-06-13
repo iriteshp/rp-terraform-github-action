@@ -48,6 +48,15 @@ jobs:
         if: steps.output-vars.outputs.client_env == 'dev'
         id: ruby-script
         run: ruby parser.rb issue-details.json
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+      
+      - name: Format Terraform
+        working-directory: ./temp
+        run: |
+          terraform fmt -check
+          terraform fmt
 
       - name: Git configs
         if: steps.output-vars.outputs.client_env == 'dev'
@@ -67,11 +76,6 @@ jobs:
           echo temp/module.tf >> terraform/applications/keycloak/modules/login-gov.tf
           echo "}" >> terraform/applications/keycloak/modules/login-gov.tf
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-      
-      # - name: Format Terraform
-      #   run: 
 
       - name: Create Pull Request
         if: steps.output-vars.outputs.client_env == 'dev'
@@ -87,6 +91,3 @@ jobs:
             An automated ADD keycloak client Request
           labels: |
             amt
-    # outputs:
-    #   client-name: ${{ steps.output-vars.outputs.client_name }}
-    #   client-name: ${{ steps.output-vars.outputs.client_env }}
