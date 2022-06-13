@@ -47,8 +47,8 @@ resource "keycloak_openid_client" "react_test_app" {
   realm_id                                   = keycloak_realm.login_gov_tf.id
   root_url                                   = var.react_test_app_root_url
   admin_url                                  = var.react_test_app_admin_url
-  standard_flow_enabled                      = "true"
-  use_refresh_tokens                         = "true"
+  standard_flow_enabled = "true"
+  use_refresh_tokens    = "true"
   valid_redirect_uris                        = var.react_test_app_uris
-  web_origins                                = ["*"]
+  web_origins           = ["*"]
 }
