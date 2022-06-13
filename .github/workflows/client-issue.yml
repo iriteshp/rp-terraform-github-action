@@ -70,7 +70,7 @@ jobs:
           cat temp/enable.tf >> terraform/applications/keycloak/env/dev.tfvars
 
           sed -i -e '$ d' terraform/applications/keycloak/login-gov.tf
-          echo temp/module.tf >> terraform/applications/keycloak/login-gov.tf
+          cat temp/module.tf >> terraform/applications/keycloak/login-gov.tf
           echo "}" >> terraform/applications/keycloak/login-gov.tf
 
 
