@@ -86,7 +86,7 @@ jobs:
           add-paths: terraform/applications/keycloak/*
           token: ${{ secrets.GIT_TOKEN }}
           commit-message: "Add new client"
-          branch: add-client
+          branch: add-client-${{ steps.output-vars.outputs.client_name }}
           base: main
           title: "[Add Keycloak Client] adding some text"
           body: |
