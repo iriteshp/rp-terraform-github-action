@@ -26,7 +26,7 @@ jobs:
       - name: Set outputs
         id: output-vars
         run: |
-          echo "::set-output name=client_name::$( jq -r '.client_name' issue-details.json )"
+          echo "::set-output name=client_name::$( jq -r '.application_config_name' issue-details.json )"
           echo "::set-output name=client_env::$( jq -r '.environment' issue-details.json )"
       
       #TODO: remove
@@ -44,7 +44,7 @@ jobs:
       - name: "Run script"
         if: steps.output-vars.outputs.client_env == 'dev'
         id: ruby-script
-        run: ruby parser.rb issue-details.json
+        run: ruby integration-request-parser.rb issue-details.json
       
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2

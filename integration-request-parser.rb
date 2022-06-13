@@ -76,28 +76,28 @@ Dir.mkdir(temp_dir) unless File.exists?(temp_dir)
 if parsed['environment'] == 'dev'
 
   # create client
-  client_output_str = resource_client(parsed['client_name'], parsed['redirect_uri'])
+  client_output_str = resource_client(parsed['application_config_name'], parsed['redirect_uri'])
   unless client_output_str.nil?
     create_file(client_output, client_output_str)
     puts "Client created."
   end
 
   # create variable
-  var_output_str = resource_variable(parsed['client_name'])
+  var_output_str = resource_variable(parsed['application_config_name'])
   unless var_output_str.nil?
     create_file(var_output, var_output_str)
     puts "Variable created."
   end
 
   # create enable var
-  enable_output_str = resource_enable(parsed['client_name'])
+  enable_output_str = resource_enable(parsed['application_config_name'])
   unless enable_output_str.nil?
     create_file(enable_output, enable_output_str)
     puts "Enable variable created."
   end
 
   # create module var
-  module_output_str = resource_module(parsed['client_name'])
+  module_output_str = resource_module(parsed['application_config_name'])
   unless module_output_str.nil?
     create_file(module_output, module_output_str)
     puts "Module variable created."
