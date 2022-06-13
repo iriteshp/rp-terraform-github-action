@@ -32,10 +32,11 @@ def resource_client(client_name)
     ret = ''
     ret += <<~HERE
     resource "keycloak_openid_client" "#{client_name}" {
+      count                                      = var.enable_#{client_name} ? 1 : 0
       access_type                                = "PUBLIC"
       backchannel_logout_revoke_offline_sessions = "false"
       backchannel_logout_session_required        = "false"
-      client_authenticator_type                  = "client-secret"
+      client_authenticator_type                  = "xx-client-secret"
       client_id                                  = "#{client_name}"
       consent_required                           = "false"
       direct_access_grants_enabled               = "true"
@@ -47,12 +48,10 @@ def resource_client(client_name)
       name                                       = "#{client_name}"
       oauth2_device_authorization_grant_enabled  = "false"
       realm_id                                   = keycloak_realm.login_gov_tf.id
-      root_url                                   = var.react_test_app_root_url
-      admin_url                                  = var.react_test_app_admin_url
-      standard_flow_enabled = "true"
-      use_refresh_tokens    = "true"
+      standard_flow_enabled                      = "true"
+      use_refresh_tokens                         = "true"
       valid_redirect_uris                        = var.react_test_app_uris
-      web_origins           = ["*"]
+      web_origins                                = ["*"]
     }
     HERE
     return ret
