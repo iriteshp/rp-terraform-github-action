@@ -1,7 +1,7 @@
-name: Mange User Groups
+name: User Groups
 description: |
   Filling out this request add user to specified group in Keycloak.
-title: "[Manage User Group]: "
+title: "[User Group]: "
 labels: ["integration"]
 assignees:
   - iriteshp
