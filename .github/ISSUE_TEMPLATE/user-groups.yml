@@ -1,0 +1,42 @@
+name: Mange User Groups
+description: |
+  Filling out this request add user to specified group in Keycloak.
+title: "[Manage User Group]: "
+labels: ["integration"]
+assignees:
+  - iriteshp
+body:
+  - type: input
+    id: user-email
+    attributes:
+      label: User Email
+      description: This email should be user email from Keycloak.
+      placeholder: ex. john@example.com
+    validations:
+      required: true
+  - type: input
+    id: team-name
+    attributes:
+      label: Team name
+      description: The team you are part of.
+      placeholder: ex. Access Management Team
+    validations:
+      required: true
+  - type: input
+    id: group-name
+    attributes:
+      label: Group name
+      description: The name of the group you are requesting access for.
+      placeholder: ex. admin, viewer
+    validations:
+      required: true
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      description: The environment for the request.
+      options:
+        - dev
+        # - utility
+    validations: 
+      required: true
