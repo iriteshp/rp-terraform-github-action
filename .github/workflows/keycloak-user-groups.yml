@@ -17,5 +17,5 @@ jobs:
           template-path: .github/ISSUE_TEMPLATE/user-groups.yml
 
       - run: |
-        echo '${{ steps.issue-parser.outputs.jsonString }}'
-        echo ${{ github.event.label.name }}
+            echo '${{ steps.issue-parser.outputs.jsonString }}'
+            echo ${{ github.event.label.name }}
