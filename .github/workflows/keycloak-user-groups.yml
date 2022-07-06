@@ -4,7 +4,7 @@ on:
     types: [opened, edited]
 jobs:
   manage-user-groups:
-    if: github.event.label.name == 'kc-user-groups'
+    if: github.event.label.name == 'keycloak-groups'
     runs-on: ubuntu-latest
     steps:
       - name: Git Checkout
