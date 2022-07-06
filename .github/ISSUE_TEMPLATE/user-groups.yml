@@ -2,7 +2,7 @@ name: User Group
 description: |
   Filling out this request add user to specified group in Keycloak.
 title: "[User Group]: "
-labels: ["keycloak", "kc-user-groups"]
+labels: ["keycloak-groups"]
 assignees:
   - iriteshp
 body:

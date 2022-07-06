@@ -1,0 +1,14 @@
+# yq e '.user_groups.dev.amt.developer += ["rpat@gmail.com"]' --inplace config/user-groups.yml
+dev:
+  user_groups:
+    amt:
+      developer:
+        - test@gmail.com
+        - test1@gmail.com
+        - rpat@gmail.com
+      viewer:
+        - test2@gmail.com
+        - test@gmail.com
+    console:
+      admins:
+        - test4@gmail.com
