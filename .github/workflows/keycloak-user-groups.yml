@@ -1,0 +1,17 @@
+name: "Issues"
+on:
+  issues:
+    types: [opened, edited]
+jobs:
+  manage-keycloak-client:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v3
+
+      - name: Parse issue template
+        uses: stefanbuck/github-issue-parser@v2
+        id: issue-parser
+        with:
+          template-path: .github/ISSUE_TEMPLATE/user-groups.yml
+      - run: echo '${{ steps.issue-parser.outputs.jsonString }}'
