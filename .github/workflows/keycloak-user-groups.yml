@@ -4,7 +4,7 @@ on:
     types: [opened, edited]
 jobs:
   manage-user-groups:
-    if: github.event.label.name == 'keycloak-groups'
+    # if: github.event.label.name == 'keycloak-groups'
     runs-on: ubuntu-latest
     steps:
       - name: Git Checkout
@@ -16,4 +16,6 @@ jobs:
         with:
           template-path: .github/ISSUE_TEMPLATE/user-groups.yml
 
-      - run: echo '${{ steps.issue-parser.outputs.jsonString }}'
+      - run: |
+        echo '${{ steps.issue-parser.outputs.jsonString }}'
+        echo ${{ github.event.label.name }}
