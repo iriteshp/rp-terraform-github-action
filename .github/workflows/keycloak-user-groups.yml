@@ -12,13 +12,20 @@ jobs:
 
       - name: Parse issue template
         uses: stefanbuck/github-issue-parser@v2
+        id: issue-parser
+        with:
+          template-path: .github/ISSUE_TEMPLATE/client.yml
+     
+      - name: Create issue details json
+        run: echo '${{ steps.issue-parser.outputs.jsonString }}' > issue-details.json
 
-      - name: Create issue details json and vars
+      - name: Echo and create vars
         run: |
-          echo '${{ steps.issue-parser.outputs.jsonString }}' > issue-details.json
+          echo '${{ steps.issue-parser.outputs.jsonString }}'
           echo "USER_GROUP=$( jq -r '.group_name' issue-details.json )" >> $GITHUB_ENV
           echo "USER_EMAIL=$( jq -r '.user_email' issue-details.json )" >> $GITHUB_ENV
-          echo "USER_TEAM=$( jq -r '.team_name' issue-details.json )" >> $GITHUB_ENV
+          echo "USER_TEAM=$( jq -r '.team-name' issue-details.json )" >> $GITHUB_ENV
           echo "USER_ENV=$( jq -r '.environment' issue-details.json )" >> $GITHUB_ENV
+
       - name: Test
         run: echo $USER_GROUP
