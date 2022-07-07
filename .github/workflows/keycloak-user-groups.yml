@@ -6,7 +6,7 @@ jobs:
   manage-user-groups:
     if: contains( github.event.issue.labels.*.name, 'keycloak-groups') 
     runs-on: ubuntu-latest
-    steps:
+    steps:  
       - name: Git Checkout
         uses: actions/checkout@v3
 
@@ -16,4 +16,12 @@ jobs:
         with:
           template-path: .github/ISSUE_TEMPLATE/user-groups.yml
 
-      - run: echo '${{ steps.issue-parser.outputs.jsonString }}'
+      - name: Create issue details json and vars
+        run: |
+          echo '${{ steps.issue-parser.outputs.jsonString }}' > issue-details.json
+          echo "USER_GROUP=$( jq -r '.group-name' issue-details.json )" >> $GITHUB_ENV
+          echo "USER_EMAIL=$( jq -r '.user-email' issue-details.json )" >> $GITHUB_ENV
+          echo "USER_TEAM=$( jq -r '.team-name' issue-details.json )" >> $GITHUB_ENV
+          echo "USER_ENV=$( jq -r '.environment' issue-details.json )" >> $GITHUB_ENV
+      - name: Test
+        run: echo $USER_GROUP
