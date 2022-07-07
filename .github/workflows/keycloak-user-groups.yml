@@ -12,9 +12,6 @@ jobs:
 
       - name: Parse issue template
         uses: stefanbuck/github-issue-parser@v2
-        id: issue-parser
-        with:
-          template-path: .github/ISSUE_TEMPLATE/user-groups.yml
 
       - name: Create issue details json and vars
         run: |
