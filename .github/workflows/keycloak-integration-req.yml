@@ -42,7 +42,6 @@ jobs:
       #     token: ${{ secrets.GIT_TOKEN }}
 
       - name: "Run script"
-        if: steps.output-vars.outputs.client_env == 'dev'
         id: ruby-script
         run: ruby integration-request-parser.rb issue-details.json
       
@@ -56,13 +55,11 @@ jobs:
           terraform fmt -check
 
       - name: Git configs
-        if: steps.output-vars.outputs.client_env == 'dev'
         run: |
           git config --global user.email "ritesh.patel@adhocteam.us"
           git config --global user.name "Ritesh Patel"
 
       - name: Make Terraform changes
-        if: steps.output-vars.outputs.client_env == 'dev'
         run: |
           cat temp/client.tf >> devops/terraform/applications/keycloak/modules/login-gov/openid_clients.tf
           cat temp/variable.tf >> devops/terraform/applications/keycloak/modules/login-gov/variables.tf
