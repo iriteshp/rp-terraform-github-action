@@ -5,4 +5,5 @@ module "login-gov" {
   react_test_app_uris      = var.react_test_app_uris
   react_test_app_root_url  = var.react_test_app_root_url
   react_test_app_admin_url = var.react_test_app_admin_url
+  enable_my-react-app      = var.enable_my-react-app
 }
