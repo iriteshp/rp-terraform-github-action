@@ -61,29 +61,29 @@ jobs:
 
       - name: Make Terraform changes
         run: |
-          cat temp/client.tf >> devops/terraform/applications/keycloak/modules/login-gov/openid_clients.tf
-          cat temp/variable.tf >> devops/terraform/applications/keycloak/modules/login-gov/variables.tf
-          cat temp/variable.tf >> devops/terraform/applications/keycloak/variables.tf
+          cat temp/client.tf >> terraform/applications/keycloak/modules/login-gov/openid_clients.tf
+          cat temp/variable.tf >> terraform/applications/keycloak/modules/login-gov/variables.tf
+          cat temp/variable.tf >> terraform/applications/keycloak/variables.tf
           ed -s terraform/applications/keycloak/login-gov.tf <<< $'$-1r temp/module.tf\nwq'
 
       - name: Enable client
         if: steps.output-vars.outputs.client_env == 'dev'
         run: |
-          cat temp/enable.tf >> devops/terraform/applications/keycloak/env/dev.tfvars
+          cat temp/enable.tf >> terraform/applications/keycloak/env/dev.tfvars
           cat temp/not_enable.tf >> terraform/applications/keycloak/env/staging.tfvars
           cat temp/not_enable.tf >> terraform/applications/keycloak/env/utility.tfvars
 
       - name: Enable client
         if: steps.output-vars.outputs.client_env == 'staging'
         run: |
-          cat temp/enable.tf >> devops/terraform/applications/keycloak/env/staging.tfvars
+          cat temp/enable.tf >> terraform/applications/keycloak/env/staging.tfvars
           cat temp/not_enable.tf >> terraform/applications/keycloak/env/dev.tfvars
           cat temp/not_enable.tf >> terraform/applications/keycloak/env/utility.tfvars
       
       - name: Enable client
         if: steps.output-vars.outputs.client_env == 'utility'
         run: |
-          cat temp/enable.tf >> devops/terraform/applications/keycloak/env/utility.tfvars
+          cat temp/enable.tf >> terraform/applications/keycloak/env/utility.tfvars
           cat temp/not_enable.tf >> terraform/applications/keycloak/env/dev.tfvars
           cat temp/not_enable.tf >> terraform/applications/keycloak/env/staging.tfvars
 
