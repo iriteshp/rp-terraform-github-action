@@ -40,6 +40,7 @@ body:
       description: Environement for client?
       options:
         - dev
-        # - utility
+        - staging
+        - utility
     validations:
       required: true

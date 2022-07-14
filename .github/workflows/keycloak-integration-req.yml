@@ -61,17 +61,34 @@ jobs:
           git config --global user.email "ritesh.patel@adhocteam.us"
           git config --global user.name "Ritesh Patel"
 
-      - name: Make changes
+      - name: Make Terraform changes
         if: steps.output-vars.outputs.client_env == 'dev'
         run: |
-          cat temp/client.tf >> terraform/applications/keycloak/modules/login-gov/openid_clients.tf
-          cat temp/variable.tf >> terraform/applications/keycloak/modules/login-gov/variables.tf
-          cat temp/variable.tf >> terraform/applications/keycloak/variables.tf
-          cat temp/enable.tf >> terraform/applications/keycloak/env/dev.tfvars
+          cat temp/client.tf >> devops/terraform/applications/keycloak/modules/login-gov/openid_clients.tf
+          cat temp/variable.tf >> devops/terraform/applications/keycloak/modules/login-gov/variables.tf
+          cat temp/variable.tf >> devops/terraform/applications/keycloak/variables.tf
+          ed -s terraform/applications/keycloak/login-gov.tf <<< $'$-1r temp/module.tf\nwq'
+
+      - name: Enable client
+        if: steps.output-vars.outputs.client_env == 'dev'
+        run: |
+          cat temp/enable.tf >> devops/terraform/applications/keycloak/env/dev.tfvars
           cat temp/not_enable.tf >> terraform/applications/keycloak/env/staging.tfvars
           cat temp/not_enable.tf >> terraform/applications/keycloak/env/utility.tfvars
 
-          ed -s terraform/applications/keycloak/login-gov.tf <<< $'$-1r temp/module.tf\nwq'
+      - name: Enable client
+        if: steps.output-vars.outputs.client_env == 'staging'
+        run: |
+          cat temp/enable.tf >> devops/terraform/applications/keycloak/env/staging.tfvars
+          cat temp/not_enable.tf >> terraform/applications/keycloak/env/dev.tfvars
+          cat temp/not_enable.tf >> terraform/applications/keycloak/env/utility.tfvars
+      
+      - name: Enable client
+        if: steps.output-vars.outputs.client_env == 'utility'
+        run: |
+          cat temp/enable.tf >> devops/terraform/applications/keycloak/env/utility.tfvars
+          cat temp/not_enable.tf >> terraform/applications/keycloak/env/dev.tfvars
+          cat temp/not_enable.tf >> terraform/applications/keycloak/env/staging.tfvars
 
       - name: Format Terraform
         working-directory: ./terraform/applications/keycloak
@@ -79,17 +96,18 @@ jobs:
           terraform fmt
           terraform fmt -check
 
-      # - name: Create Pull Request
-      #   if: steps.output-vars.outputs.client_env == 'dev'
-      #   uses: peter-evans/create-pull-request@v3
-      #   with:
-      #     add-paths: terraform/applications/keycloak/*
-      #     token: ${{ secrets.GIT_TOKEN }}
-      #     commit-message: "Add new client"
-      #     branch: add-client-${{ steps.output-vars.outputs.client_name }}
-      #     base: main
-      #     title: "[Add Keycloak Client] adding some text"
-      #     body: |
-      #       An automated ADD keycloak client Request
-      #     labels: |
-      #       amt
+      - name: Create Pull Request
+        if: steps.output-vars.outputs.client_env == 'dev'
+        uses: peter-evans/create-pull-request@v3
+        with:
+          add-paths: terraform/applications/keycloak/*
+          token: ${{ secrets.GIT_TOKEN }}
+          commit-message: "Add new client"
+          branch: add-client-${{ steps.output-vars.outputs.client_name }}
+          base: main
+          title: "[Add Keycloak Client] adding some text"
+          body: |
+            An automated ADD keycloak client Request
+          labels: |
+            keycloak
+            ${{ steps.output-vars.outputs.client_env }}
