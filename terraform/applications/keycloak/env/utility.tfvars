@@ -25,4 +25,4 @@ base_tags = {
 db_multi_az = true
 
 ### keycloak configs
-keycloak_url = "https://keycloak.vfs.va.gov"
+keycloak_url = "https://keycloak.vfs.va.gov"enable_my_test_app = false
