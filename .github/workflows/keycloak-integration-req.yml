@@ -23,6 +23,8 @@ jobs:
 
       - run: echo '${{ steps.issue-parser.outputs.jsonString }}'
 
+      - run: echo '${{ github.event.label.name }}'
+
       - name: Set outputs
         id: output-vars
         run: |

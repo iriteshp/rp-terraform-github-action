@@ -12,16 +12,25 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
+      - name: Set ENV
+        run: |
+          if [[ contains(github.event.pull_request.labels.*.name, 'dev') ]]; then
+              echo "ENV=dev" >> "$GITHUB_ENV"
+          if [[ contains(github.event.pull_request.labels.*.name, 'staging') ]]; then
+              echo "ENV=staging" >> "$GITHUB_ENV"
+          if [[ contains(github.event.pull_request.labels.*.name, 'utility') ]]; then
+              echo "ENV=utility" >> "$GITHUB_ENV"
+          fi
       ## detect changes in dev or utility file, may be change to something else in future for env.
-      - uses: dorny/paths-filter@v2
-        name: identify env
-        id: changes
-        with:
-          filters: |
-            keycloak-dev:
-              - 'terraform/applications/keycloak/env/dev.tfvars'
-            keycloak-utility:
-              - 'terraform/applications/keycloak/env/utility.tfvars'
+      # - uses: dorny/paths-filter@v2
+      #   name: identify env
+      #   id: changes
+      #   with:
+      #     filters: |
+      #       keycloak-dev:
+      #         - 'terraform/applications/keycloak/env/dev.tfvars'
+      #       keycloak-utility:
+      #         - 'terraform/applications/keycloak/env/utility.tfvars'
 
       # - name: Configure AWS Credentials
       #   uses: aws-actions/configure-aws-credentials@v1
@@ -38,6 +47,8 @@ jobs:
 
       - name: echo stuff
         run: |
+            echo $env.ENV
+            echo $ENV
             echo "PR test"
             echo ${{ steps.changes.outputs.keycloak-dev }}
             echo ${{ steps.changes.outputs.keycloak-utility }}
