@@ -94,7 +94,6 @@ jobs:
           terraform fmt -check
 
       - name: Create Pull Request
-        if: steps.output-vars.outputs.client_env == 'dev'
         uses: peter-evans/create-pull-request@v3
         with:
           add-paths: terraform/applications/keycloak/*
