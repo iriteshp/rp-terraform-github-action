@@ -12,15 +12,20 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
-      - name: Set ENV
+      - name: Sets env var for dev
         run: |
-          if [[ contains(github.event.pull_request.labels.*.name, 'dev') ]]; then
-              echo "ENV=dev" >> "$GITHUB_ENV"
-          if [[ contains(github.event.pull_request.labels.*.name, 'staging') ]]; then
-              echo "ENV=staging" >> "$GITHUB_ENV"
-          if [[ contains(github.event.pull_request.labels.*.name, 'utility') ]]; then
-              echo "ENV=utility" >> "$GITHUB_ENV"
-          fi
+          echo "ENV=dev" >> $GITHUB_ENV
+        if: contains(github.event.pull_request.labels.*.name, 'dev')
+      
+      - name: Sets env var for staging
+        run: |
+          echo "ENV=staging" >> $GITHUB_ENV
+        if: contains(github.event.pull_request.labels.*.name, 'staging')
+
+      - name: Sets env var for utility
+        run: |
+          echo "ENV=utility" >> $GITHUB_ENV
+        if: contains(github.event.pull_request.labels.*.name, 'utility')
       ## detect changes in dev or utility file, may be change to something else in future for env.
       # - uses: dorny/paths-filter@v2
       #   name: identify env
@@ -55,7 +60,7 @@ jobs:
 
       - name: terraform fmt
         id: fmt-dev
-        if: steps.changes.outputs.keycloak-dev == 'true'
+        if: ${{ contains(github.event.pull_request.labels.*.names, 'dev') }}
         working-directory: terraform/applications/keycloak
         continue-on-error: true
         run: make ENV=dev fmt-check
