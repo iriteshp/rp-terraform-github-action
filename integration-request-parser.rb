@@ -15,6 +15,13 @@ def resource_enable(client_name)
     HERE
     return ret
   end
+def resource_not_enable(client_name)
+    ret = ''
+    ret += <<~HERE
+    enable_#{client_name} = false
+    HERE
+    return ret
+  end
 
 def resource_variable(client_name)
     ret = ''
@@ -29,7 +36,6 @@ def resource_variable(client_name)
   end
 
 def resource_client(client_name, redirect_uri)
-    puts redirect_uri.split(/\s*,\s*/)
     ret = ''
     ret += <<~HERE
     resource "keycloak_openid_client" "#{client_name}" {
@@ -70,40 +76,48 @@ client_output = "#{temp_dir}/client.tf"
 var_output = "#{temp_dir}/variable.tf"
 module_output = "#{temp_dir}/module.tf"
 enable_output = "#{temp_dir}/enable.tf"
+not_enable_output = "#{temp_dir}/not_enable.tf"
 
 Dir.mkdir(temp_dir) unless File.exists?(temp_dir)
 
-if parsed['environment'] == 'dev'
+# if parsed['environment'] == 'dev'
 
-  # create client
-  client_output_str = resource_client(parsed['application_config_name'], parsed['redirect_uri'])
-  unless client_output_str.nil?
-    create_file(client_output, client_output_str)
-    puts "Client created."
-  end
+# create client
+client_output_str = resource_client(parsed['application_config_name'], parsed['redirect_uri'])
+unless client_output_str.nil?
+  create_file(client_output, client_output_str)
+  puts "Client created."
+end
 
-  # create variable
-  var_output_str = resource_variable(parsed['application_config_name'])
-  unless var_output_str.nil?
-    create_file(var_output, var_output_str)
-    puts "Variable created."
-  end
+# create variable
+var_output_str = resource_variable(parsed['application_config_name'])
+unless var_output_str.nil?
+  create_file(var_output, var_output_str)
+  puts "Variable created."
+end
 
-  # create enable var
-  enable_output_str = resource_enable(parsed['application_config_name'])
-  unless enable_output_str.nil?
-    create_file(enable_output, enable_output_str)
-    puts "Enable variable created."
-  end
+# create enable var
+enable_output_str = resource_enable(parsed['application_config_name'])
+unless enable_output_str.nil?
+  create_file(enable_output, enable_output_str)
+  puts "Enable variable created."
+end
 
-  # create module var
-  module_output_str = resource_module(parsed['application_config_name'])
-  unless module_output_str.nil?
-    create_file(module_output, module_output_str)
-    puts "Module variable created."
-  end
+# create not enable var
+not_enable_output_str = resource_not_enable(parsed['application_config_name'])
+unless not_enable_output_str.nil?
+  create_file(not_enable_output, not_enable_output_str)
+  puts "Not Enable variable created."
+end
 
-  elsif parsed['environment'] == 'utility'
-    # TODO: add only enable for utility, no need for other resources
-    puts parsed['environment']
-  end
+# create module var
+module_output_str = resource_module(parsed['application_config_name'])
+unless module_output_str.nil?
+  create_file(module_output, module_output_str)
+  puts "Module variable created."
+end
+
+  # elsif parsed['environment'] == 'utility'
+  #   # TODO: add only enable for utility, no need for other resources
+  #   puts parsed['environment']
+  # end

@@ -68,10 +68,10 @@ jobs:
           cat temp/variable.tf >> terraform/applications/keycloak/modules/login-gov/variables.tf
           cat temp/variable.tf >> terraform/applications/keycloak/variables.tf
           cat temp/enable.tf >> terraform/applications/keycloak/env/dev.tfvars
+          cat temp/not_enable.tf >> terraform/applications/keycloak/env/staging.tfvars
+          cat temp/not_enable.tf >> terraform/applications/keycloak/env/utility.tfvars
 
-          sed -i -e '$ d' terraform/applications/keycloak/login-gov.tf
-          cat temp/module.tf >> terraform/applications/keycloak/login-gov.tf
-          echo "}" >> terraform/applications/keycloak/login-gov.tf
+          ed -s terraform/applications/keycloak/login-gov.tf <<< $'$-1r temp/module.tf\nwq'
 
       - name: Format Terraform
         working-directory: ./terraform/applications/keycloak
@@ -79,17 +79,17 @@ jobs:
           terraform fmt
           terraform fmt -check
 
-      - name: Create Pull Request
-        if: steps.output-vars.outputs.client_env == 'dev'
-        uses: peter-evans/create-pull-request@v3
-        with:
-          add-paths: terraform/applications/keycloak/*
-          token: ${{ secrets.GIT_TOKEN }}
-          commit-message: "Add new client"
-          branch: add-client-${{ steps.output-vars.outputs.client_name }}
-          base: main
-          title: "[Add Keycloak Client] adding some text"
-          body: |
-            An automated ADD keycloak client Request
-          labels: |
-            amt
+      # - name: Create Pull Request
+      #   if: steps.output-vars.outputs.client_env == 'dev'
+      #   uses: peter-evans/create-pull-request@v3
+      #   with:
+      #     add-paths: terraform/applications/keycloak/*
+      #     token: ${{ secrets.GIT_TOKEN }}
+      #     commit-message: "Add new client"
+      #     branch: add-client-${{ steps.output-vars.outputs.client_name }}
+      #     base: main
+      #     title: "[Add Keycloak Client] adding some text"
+      #     body: |
+      #       An automated ADD keycloak client Request
+      #     labels: |
+      #       amt
