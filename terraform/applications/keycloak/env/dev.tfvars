@@ -48,3 +48,4 @@ react_test_app_admin_url = "https://pst-amt-test-app-dev.vfs.va.gov/"
 
 ### enable clients
 # enable_react_app_client = false
+enable_my_react_test_app = false
