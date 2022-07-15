@@ -17,7 +17,7 @@ jobs:
         run: |
            echo "KC_ENV=dev" >> "$GITHUB_ENV"
       
-       - name: set staging env variable        
+      - name: set staging env variable        
         if: contains(github.event.pull_request.labels.*.name, 'staging')      
         run: |
            echo "KC_ENV=staging" >> "$GITHUB_ENV"
