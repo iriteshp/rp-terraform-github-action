@@ -4,9 +4,9 @@ on:
     types: [ labeled ]
     paths:
       - 'terraform/applications/keycloak/**'
-if: contains(github.event.pull_request.labels.*.name, 'kc-client')  
 jobs:
   terraform-automate:
+    if: contains(github.event.pull_request.labels.*.name, 'kc-client')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
