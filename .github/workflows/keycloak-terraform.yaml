@@ -1,6 +1,7 @@
 name: Keycloak Terraform
 on:
   pull_request:
+    types: [ labeled ]
     paths:
       - 'terraform/applications/keycloak/**'
 jobs:
