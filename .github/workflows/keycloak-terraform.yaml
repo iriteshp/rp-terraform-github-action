@@ -12,10 +12,15 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
       
-      - name: set env variable        
+      - name: set dev env variable        
         if: contains(github.event.pull_request.labels.*.name, 'dev')      
         run: |
            echo "KC_ENV=dev" >> "$GITHUB_ENV"
+      
+       - name: set staging env variable        
+        if: contains(github.event.pull_request.labels.*.name, 'staging')      
+        run: |
+           echo "KC_ENV=staging" >> "$GITHUB_ENV"
 
       # - name: Set ENV
       #   run: |
