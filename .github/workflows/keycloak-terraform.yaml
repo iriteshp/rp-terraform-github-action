@@ -4,6 +4,7 @@ on:
     types: [ labeled ]
     paths:
       - 'terraform/applications/keycloak/**'
+if: contains(github.event.pull_request.labels.*.name, 'kc-client')  
 jobs:
   terraform-automate:
     runs-on: ubuntu-latest
@@ -23,33 +24,6 @@ jobs:
         run: |
            echo "KC_ENV=staging" >> "$GITHUB_ENV"
 
-      # - name: Set ENV
-      #   run: |
-      #     if [[ ${{ github.event.pull_request.labels.*.name }} == *"dev"* ]]; then
-      #       echo "ENV=dev" >> "$GITHUB_ENV"
-      #     elif [[ ${{ github.event.pull_request.labels.*.name }} == *"staging"* ]]; then
-      #       echo "ENV=staging" >> "$GITHUB_ENV"
-      #     else [[ ${{ github.event.pull_request.labels.*.name }} == *"utility"* ]]; then
-      #       echo "ENV=utility" >> "$GITHUB_ENV"
-      #     fi
-      ## detect changes in dev or utility file, may be change to something else in future for env.
-      # - uses: dorny/paths-filter@v2
-      #   name: identify env
-      #   id: changes
-      #   with:
-      #     filters: |
-      #       keycloak-dev:
-      #         - 'terraform/applications/keycloak/env/dev.tfvars'
-      #       keycloak-utility:
-      #         - 'terraform/applications/keycloak/env/utility.tfvars'
-
-      # - name: Configure AWS Credentials
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: "us-gov-west-1"
-
       # - name: Obtain GitHub Token
       #   uses: marvinpinto/action-inject-ssm-secrets@latest
       #   with:
@@ -58,31 +32,24 @@ jobs:
 
       - name: echo stuff
         run: |
-            echo ${{ env.KC_ENV}} 
+            echo ${{ env.KC_ENV }} 
 
       - name: terraform fmt
         id: fmt-dev
-        if: ${{ contains(github.event.pull_request.labels.*.names, 'dev') }}
+        if: env.KC_ENV == 'dev'
         working-directory: terraform/applications/keycloak
         continue-on-error: true
         run: make ENV=dev fmt-check
 
       - name: terraform init
         id: init-dev
-        if: steps.changes.outputs.keycloak-dev == 'true'
+        if: env.KC_ENV == 'dev'
         working-directory: terraform/applications/keycloak
         continue-on-error: true
         run: make ENV=dev init
 
-      - name: terraform plan
-        id: plan-dev
-        if: steps.changes.outputs.keycloak-dev == 'true'
-        working-directory: terraform/applications/keycloak
-        run: make ENV=dev plan-no-refresh
-        continue-on-error: true
-
       - uses: actions/github-script@0.9.0
-        if: github.event_name == 'pull_request' && steps.changes.outputs.keycloak-dev == 'true'
+        if: env.KC_ENV == 'dev'
         env:
           FMT: "${{ steps.fmt-dev.outputs.stdout }}"
           PLAN: "${{ steps.plan-dev.outputs.stdout }}"
@@ -111,6 +78,52 @@ jobs:
             </details>
 
             #### *Environment: dev*`;
+      
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+      
+      - name: terraform fmt
+        id: fmt-staging
+        if: env.KC_ENV == 'staging'
+        working-directory: terraform/applications/keycloak
+        continue-on-error: true
+        run: make ENV=staging fmt-check
+
+      - name: terraform init
+        id: init-staging
+        if: env.KC_ENV == 'staging'
+        working-directory: terraform/applications/keycloak
+        continue-on-error: true
+        run: make ENV=staging init
+
+      - uses: actions/github-script@0.9.0
+        if: env.KC_ENV == 'staging'
+        env:
+          FMT: "${{ steps.fmt-staging.outputs.stdout }}"
+          # PLAN: "${{ steps.plan-staging.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GIT_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt-staging.outcome }}\`
+
+            <details><summary>Files in need of format</summary>
+            
+            \`\`\`\n
+            ${process.env.FMT}
+            \`\`\`
+            
+            </details>
+
+            #### Terraform Initialization ⚙️\`${{ steps.init-staging.outcome }}\`
+
+            
+            </details>
+
+            #### *Environment: staging*`;
       
             github.issues.createComment({
               issue_number: context.issue.number,
