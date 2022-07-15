@@ -13,9 +13,6 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
       
-      - name: echo
-        run: echo “${{ toJson(github.event.pull_request.labels) }}”
-        
       - name: set dev env variable        
         if: contains(github.event.pull_request.labels.*.name, 'dev')      
         run: |

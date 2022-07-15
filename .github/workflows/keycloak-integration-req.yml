@@ -108,4 +108,5 @@ jobs:
             An automated ADD keycloak client Request
           labels: |
             keycloak
+            kc-integration
             ${{ steps.output-vars.outputs.client_env }}
