@@ -11,21 +11,16 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
-
-      - name: Sets env var for dev
-        run: |
-          echo "ENV=dev" >> $GITHUB_ENV
-        if: contains(github.event.pull_request.labels.*.name, 'dev')
       
-      - name: Sets env var for staging
+      - name: Set ENV
         run: |
-          echo "ENV=staging" >> $GITHUB_ENV
-        if: contains(github.event.pull_request.labels.*.name, 'staging')
-
-      - name: Sets env var for utility
-        run: |
-          echo "ENV=utility" >> $GITHUB_ENV
-        if: contains(github.event.pull_request.labels.*.name, 'utility')
+          if [[ ${{ github.event.pull_request.labels.*.name }} == *"dev"* ]]; then
+            echo "ENV=dev" >> "$GITHUB_ENV"
+          elif [[ ${{ github.event.pull_request.labels.*.name }} == *"staging"* ]]; then
+            echo "ENV=staging" >> "$GITHUB_ENV"
+          else [[ ${{ github.event.pull_request.labels.*.name }} == *"utility"* ]]; then
+            echo "ENV=utility" >> "$GITHUB_ENV"
+          fi
       ## detect changes in dev or utility file, may be change to something else in future for env.
       # - uses: dorny/paths-filter@v2
       #   name: identify env
@@ -52,7 +47,8 @@ jobs:
 
       - name: echo stuff
         run: |
-            echo ${{ github.event.pull_request.labels }}
+            echo $env.ENV
+            echo $ENV
             echo "PR test"
             echo ${{ steps.changes.outputs.keycloak-dev }}
             echo ${{ steps.changes.outputs.keycloak-utility }}
