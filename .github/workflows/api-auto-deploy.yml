@@ -57,5 +57,5 @@ jobs:
         echo "LAST_RELEASE=$(git tag --sort=-creatordate | head -1)" >> $GITHUB_ENV
     - name: Echo2
       run: |
-        echo $SHORT_SHA
+        echo $SHORT_SHA \
         echo $LAST_RELEASE
