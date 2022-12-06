@@ -55,4 +55,4 @@ jobs:
       run: |
         echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
     - name: Echo2
-      run: echo ${env.SHORT_SHA}
+      run: echo $SHORT_SHA
