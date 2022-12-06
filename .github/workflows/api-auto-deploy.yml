@@ -1,0 +1,58 @@
+name: Auto Deploy API
+on: push
+
+jobs:
+  push-image-to-ecr:
+    name: Build and push Image in ECR
+    runs-on: ubuntu-latest
+    steps:
+    # Checkout current repo.
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    # Run pre build tests.
+    # - name: Run test
+    #   run: ./test/test.sh
+    #   shell: bash
+
+    # Build docker image
+    - name: Build docker image
+      run: |
+        make build \
+         AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }} \
+         BUILD_TOOL=GHA \
+         BUILD_NUMBER=${{ github.run_number }}
+
+    # Setup AWS credentials
+    # - name: Configure AWS Credentials
+    #   uses: aws-actions/configure-aws-credentials@v1-node16
+    #   with:
+    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     aws-region: "us-gov-west-1"
+
+    # Login and get ECR tokens
+    # - name: Login to Amazon ECR
+    #   id: login-ecr
+    #   uses: aws-actions/amazon-ecr-login@v1
+
+    # Push image to ECR
+    # - name: Push image to ECR
+    #   run: |
+    #     make push
+
+  create-github-release:
+    needs: push-image-to-ecr
+    if: ${{ github.ref == 'refs/heads/main' }} # change to main 'refs/heads/main'
+    name: Create github release and update tag in ECR
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    # Checkout current repo.
+    - name: Echo
+      run: |
+        echo $GITHUB_SHA \
+        echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV \
+        echo $SHORT_SHA \
