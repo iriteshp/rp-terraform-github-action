@@ -56,9 +56,7 @@ jobs:
     - name: Get old release tag
       run:  echo "LAST_RELEASE=$(git tag --sort=-creatordate | head -1)" >> $GITHUB_ENV
     - name: test
-      run: |
-        git tag --list           
-        git rev-list --tags --max-count=1
+      run: git tag --sort=-creatordate
 
     - name: Echo2
       run: |
