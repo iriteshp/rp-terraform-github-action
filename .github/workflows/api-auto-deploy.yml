@@ -49,6 +49,7 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@v3
+      ref: main
 
     # Checkout current repo.
     - name: Create short SHA
@@ -57,7 +58,6 @@ jobs:
       run:  echo "LAST_RELEASE=$(git tag --sort=-creatordate | head -1)" >> $GITHUB_ENV
     - name: test
       run: |
-        git pull
         git tag --sort=-creatordate
 
     - name: Echo2
