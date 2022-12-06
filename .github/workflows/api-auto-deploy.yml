@@ -51,7 +51,8 @@ jobs:
       uses: actions/checkout@v3
       with:
         ref: main
-      run: git pull
+    
+    - run: git pull
 
     # Checkout current repo.
     - name: Create short SHA
