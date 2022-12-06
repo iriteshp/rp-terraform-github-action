@@ -54,9 +54,11 @@ jobs:
     - name: Create short SHA
       run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
     - name: Get old release tag
-      run:  echo "LAST_RELEASE=test" >> $GITHUB_ENV
+      run:  echo "LAST_RELEASE=$(git tag --sort=-creatordate | head -1)" >> $GITHUB_ENV
     - name: test
-      run: git tag --sort=-creatordate
+      run: |
+        git pull
+        git tag --sort=-creatordate
 
     - name: Echo2
       run: |
