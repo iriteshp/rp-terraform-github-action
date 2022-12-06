@@ -53,9 +53,9 @@ jobs:
     # Checkout current repo.
     - name: Echo
       run: |
-        echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV \
+        echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
         echo "LAST_RELEASE=$(git tag --sort=-creatordate | head -1)" >> $GITHUB_ENV
     - name: Echo2
       run: |
-        echo $SHORT_SHA \
+        echo $SHORT_SHA
         echo $LAST_RELEASE
