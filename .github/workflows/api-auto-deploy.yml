@@ -55,4 +55,5 @@ jobs:
       run: |
         echo "A initial message"
         echo $GITHUB_SHA
-        echo "test message"
+        echo "SHORT_SHA=test" >> $GITHUB_ENV
+        echo $SHORT_SHA
